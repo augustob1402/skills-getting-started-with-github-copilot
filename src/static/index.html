@@ -5,6 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mergington High School Activities</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* ...existing styles... */
+      .activity-card {
+        /* ...existing styles... */
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        background: #fff;
+        transition: box-shadow 0.2s;
+      }
+      .activity-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+      }
+      .participants-section {
+        margin-top: 1.2em;
+        background: #f7f8fa;
+        border-radius: 6px;
+        padding: 0.8em 1em;
+      }
+      .participants-section h4 {
+        margin: 0 0 0.5em 0;
+        font-size: 1.05em;
+        color: #2d3a4a;
+        letter-spacing: 0.01em;
+      }
+      .participants-list {
+        margin: 0;
+        padding-left: 1.2em;
+        color: #3a4a5a;
+        font-size: 0.98em;
+      }
+      .participants-list li {
+        margin-bottom: 0.2em;
+        list-style-type: disc;
+      }
+      /* ...existing styles... */
+    </style>
   </head>
   <body>
     <header>
@@ -26,7 +64,12 @@
         <form id="signup-form">
           <div class="form-group">
             <label for="email">Student Email:</label>
-            <input type="email" id="email" required placeholder="your-email@mergington.edu" />
+            <input
+              type="email"
+              id="email"
+              required
+              placeholder="your-email@mergington.edu"
+            />
           </div>
           <div class="form-group">
             <label for="activity">Select Activity:</label>
@@ -46,5 +89,36 @@
     </footer>
 
     <script src="app.js"></script>
+    <script>
+      // ...existing code...
+      function renderActivities(activities) {
+        const container = document.getElementById('activities-container');
+        container.innerHTML = '';
+        Object.entries(activities).forEach(([name, info]) => {
+          const card = document.createElement('div');
+          card.className = 'activity-card';
+          card.innerHTML = `
+            <h2>${name}</h2>
+            <p><strong>Description:</strong> ${info.description}</p>
+            <p><strong>Schedule:</strong> ${info.schedule}</p>
+            <p><strong>Max Participants:</strong> ${info.max_participants}</p>
+            <div class="participants-section">
+              <h4>Participants</h4>
+              <ul class="participants-list">
+                ${info.participants.length > 0
+                  ? info.participants.map((p) => `<li>${p}</li>`).join('')
+                  : '<li><em>No participants yet</em></li>'}
+              </ul>
+            </div>
+            <form onsubmit="signup(event, '${name}')">
+              <input type="email" name="email" placeholder="Your email" required />
+              <button type="submit">Sign Up</button>
+            </form>
+          `;
+          container.appendChild(card);
+        });
+      }
+      // ...existing code...
+    </script>
   </body>
 </html>
